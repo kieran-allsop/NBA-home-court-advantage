@@ -1,6 +1,3 @@
-cd "H:\DataSets4\Allsop\Dropbox\NBA\tex"
-//cd "/Users/scottganz/Dropbox/AEI/NBA/stata"
-
 use "..\data\nba_final_data.dta", clear
 //use "../data/nba_final_data.dta", clear
 
