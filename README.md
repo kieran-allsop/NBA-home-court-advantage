@@ -1,1 +1,10 @@
 # NBA-home-court-advantage
+
+This repository contains all of the hand-collected data and code to reproduce the figures, analysis, and calculations in the working paper "[All-star fans and home court advantage
+](https://www.aei.org/research-products/working-paper/all-star-fans-and-home-court-advantage/)" updated on July 7th, 2021, and the FiveThirty Eight article "[After This Weird NBA Season, We Have A Better Idea Of How Much Fans Matter](https://fivethirtyeight.com/features/after-this-weird-nba-season-we-have-a-better-idea-of-how-much-fans-matter/)", published July 6th, 2021.
+
+[nba_replicationfile.Rmd](https://github.com/kieran-allsop/NBA-home-court-advantage/blob/main/nba_replicationfile.Rmd) includes the code to scrape and combine the data from [basketball-reference.com/](https://www.basketball-reference.com/). It then reproduces each of the figures in the working paper and calculates all statistical claims made in both the working paper and FiveThirtyEight article. [nba_replicationfile.html](https://github.com/kieran-allsop/NBA-home-court-advantage/blob/main/nba_replicationfile.html) is a HTML version of the same document.
+
+[NBA_replicationfile.do](https://github.com/kieran-allsop/NBA-home-court-advantage/blob/main/NBA_replicationfile.do) allows you to complete the regression analysis found in the working paper following the successful scraping and merging of the data set. 
+
+[boxscore_stats_home.csv](https://github.com/kieran-allsop/NBA-home-court-advantage/blob/main/boxscore_stats_home.csv) and [boxscore_stats_away.csv](https://github.com/kieran-allsop/NBA-home-court-advantage/blob/main/boxscore_stats_away.csv) contain team boxscore statistics for each season from 2014-15 to 2020-21, collected from [basketball-reference.com/](https://www.basketball-reference.com/). [stadium_capacity_limits.xlsx](https://github.com/kieran-allsop/NBA-home-court-advantage/blob/main/stadium_capacity_limits.xlsx) contains hand-collected data on stadium capacity limits throughout the 2020-21 season. The various sources of this data can be found within the file.
