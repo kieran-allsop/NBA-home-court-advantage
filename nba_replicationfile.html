@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Scott C. Ganz" />
+<meta name="author" content="Scott C. Ganz and Kieran Allsop" />
 
 
 <title>Fans Matter</title>
@@ -349,15 +349,15 @@ pre code {
 
 
 <h1 class="title toc-ignore">Fans Matter</h1>
-<h4 class="author">Scott C. Ganz</h4>
-<h4 class="date">6/30/2021</h4>
+<h4 class="author">Scott C. Ganz and Kieran Allsop</h4>
+<h4 class="date">7/7/2021</h4>
 
 </div>
 
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>This is an R Markdown document that replicated the data collection, sorting, and analysis from the paper <a href="https://www.aei.org/research-products/working-paper/all-star-fans-and-home-court-advantage/">All-star fans and home court advantage</a>. The code was originally run on R.4.0.1. Updated versions of R may have been released since this replication file was written.</p>
+<p>This is an R Markdown document that replicates the data collection, sorting, and analysis from the working paper <a href="https://www.aei.org/research-products/working-paper/all-star-fans-and-home-court-advantage/">All-star fans and home court advantage</a> as well as the FiveThirtyEight article <a href="https://fivethirtyeight.com/features/after-this-weird-nba-season-we-have-a-better-idea-of-how-much-fans-matter/">After This Weird NBA Season, We Have A Better Idea Of How Much Fans Matter</a>. The code was originally run on R.4.0.1. Updated versions of R may have been released since this replication file was written.</p>
 <p>You will need to install the following packages into R to run this code:</p>
 <ul>
 <li>dplyr</li>
@@ -928,7 +928,7 @@ means</code></pre>
 ## 20  2021       3.16   0.547</code></pre>
 <p>“Through the first 77 games of the postseason, the average home margin has been 3.75 points, which is within two 2 points of the average home margins in eight of the past 10 non-bubble playoffs.”</p>
 <pre class="r"><code>print(str_c(&quot;There have been &quot;, nrow(data[[&quot;21&quot;]]),&quot; games so far in the post-season (as of 6/30/2021). Those games have had an average home margin of &quot;, round(means$homemargin[means$year==2021], digits=2), &quot;.&quot;))</code></pre>
-<pre><code>## [1] &quot;There have been 80 games so far in the post-season (as of 6/30/2021). Those games have had an average home margin of 3.16.&quot;</code></pre>
+<pre><code>## [1] &quot;There have been 85 games so far in the post-season (as of 6/30/2021). Those games have had an average home margin of 3.16.&quot;</code></pre>
 <pre class="r"><code>print(str_c(&quot;The average margins in the following 10, non-bubble, playoffs are as follows: &quot;, round(means$homemargin[means$year==2019], digits=2), &quot;, &quot;, round(means$homemargin[means$year==2018], digits=2), &quot;, &quot;, round(means$homemargin[means$year==2017], digits=2), &quot;, &quot;, round(means$homemargin[means$year==2016], digits=2), &quot;, &quot;, round(means$homemargin[means$year==2015], digits=2), &quot;, &quot;, round(means$homemargin[means$year==2014], digits=2), &quot;, &quot;, round(means$homemargin[means$year==2013], digits=2), &quot;, &quot;, round(means$homemargin[means$year==2012], digits=2), &quot;, &quot;, round(means$homemargin[means$year==2011], digits=2), &quot;, &quot;, round(means$homemargin[means$year==2010], digits=2), &quot;.&quot;))</code></pre>
 <pre><code>## [1] &quot;The average margins in the following 10, non-bubble, playoffs are as follows: 3.82, 6.28, 2.06, 8.07, 2.14, 2.84, 4, 4.68, 3.64, 4.5.&quot;</code></pre>
 </div>
