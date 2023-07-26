@@ -1,0 +1,127 @@
+---
+title: "Fans Matter"
+author: "Scott C. Ganz and Kieran Allsop"
+date: "7/7/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(rvest)
+library(tidyr)
+library(stringr)
+library(readxl)
+library(readr)
+library(haven)
+library(lubridate)
+library(ggplot2)
+library(ggthemes)
+library(ggpubr)
+library(grid)
+library(gridExtra)
+```
+
+## Introduction
+
+This is an R Markdown document that replicates the analysis from the FiveThirtyEight article [After This Weird NBA Season, We Have A Better Idea Of How Much Fans Matter](https://fivethirtyeight.com/features/after-this-weird-nba-season-we-have-a-better-idea-of-how-much-fans-matter/). The code was originally run on R.4.0.1. Updated versions of R may have been released since this replication file was written.
+
+All analysis uses the dataset found at data/nba_final_data.csv. Data scraping was originally completed in May 2021.
+
+You will need to install the following packages into R to run this code:
+
+* dplyr
+* tidyr
+* rvest
+* readr
+* readxl
+* haven
+* stringr
+* lubridate
+* ggplot2
+* ggthemes
+* ggpubr
+* grid
+* gridExtra
+
+## Create Figure
+
+First, read the data back in.
+
+```{r readdata}
+d <- read_csv("../data/nba_final_data.csv") %>%
+  mutate(season = as.factor(season)) %>%
+  filter(season!=2022)
+```
+
+### Figure 1 - Mean Home Margin Across Years
+
+```{r fig1}
+
+## Create season indicators for "2021 (No Fans)", "2021 (Fans)", and "Non 2021". Bind together with the main dataset
+d21_1 <- d %>% filter(season==2021) %>%
+  filter(reg_remove==0) %>%
+  mutate(season = ifelse(attendance==0, "2021 (No Fans)", "2021 (Fans)"))
+                            
+means_ext <- rbind(d, d21_1) %>%
+  mutate(temp = 1)
+
+## Find mean home court advantage by season including confidence intervals
+means <- means_ext %>%
+  group_by(season) %>%
+  summarize(homemargin1 = mean(homemargin), sd = sd(homemargin), N = sum(temp)) %>%
+  ungroup() %>%
+  mutate(se = sd/sqrt(N),
+         ci = 1.96*se)
+
+## Required for t-test calculations in section 3
+margins_non21 <- means_ext %>% filter(season=="Non 2021") %>% select(homemargin)
+margins_nofans <- means_ext %>% filter(season=="2021 (No Fans)") %>% select(homemargin)
+margins_fans <- means_ext %>% filter(season=="2021 (Fans)") %>% select(homemargin)
+
+## Plot Figure 1 and save    
+MEANS2 <- ggplot(means, aes(x = season, y = homemargin1)) +
+  geom_errorbar(aes(ymin=homemargin1-ci, ymax=homemargin1+ci), width=.3) +
+  geom_point(stat="identity") + theme_few() +
+  theme(legend.position = "none")+
+  ylab("Average Home Margin") + xlab("Season") +
+  geom_vline(xintercept = 7.5, linetype = "dashed", color = "darkgray") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "darkgray") + 
+  theme(axis.text.x = element_text(angle = 45, vjust=1, hjust=1))
+MEANS2
+#ggsave("graphs/av_homemargin1.png", height=6, width=9)
+```
+
+## Article Calculations
+
+FiveThirtyEight Article: "In 440 games played in empty arenas during the regular season, the home team won by 0.39 points"
+
+```{r calc3}
+d_a <- d %>% filter(season==2021 & attendance==0 & reg_remove==0)
+print(str_c("Average home margin without fans = ", round(mean(d_a$homemargin), digits=2)))
+print(str_c("Number of observations = ", nrow(d_a)))
+```
+
+FiveThirtyEight Article: "In 507 games with fans present, the home court advantage increased to 2.13 points"
+
+```{r calc4}
+d_a <- d %>% filter(season==2021 & attendance>0 & reg_remove==0)
+print(str_c("Average home margin with fans = ", round(mean(d_a$homemargin), digits=2)))
+print(str_c("Number of observations = ", nrow(d_a)))
+```
+
+### Player Comparisons
+
+According to [FiveThirtyEight's RAPTOR](https://projects.fivethirtyeight.com/nba-player-ratings/), RJ Barrett has an Overall RAPTOR total rating of $0.0$ points per $100$ possessions. Zach LaVine has an overall rating of $+2.3$ points per $100$ possessions. According to the [ESPN 2020-21 Hollinger Team Statistics](http://www.espn.com/nba/hollinger/teamstats/_/sort/paceFactor), the New York Knicks (the team RJ Barrett plays for) average $98.2$ possessions per game and according to [basketball-reference.com](https://www.basketball-reference.com/leagues/NBA_2021_per_game.html), Zach LaVine averaged $35.1$ minutes per game during the 2020-21 season.  
+
+```{r comp1}
+a = 2.3 * (98.2/100) * (35.1/48)
+print(str_c("According to RAPTOR, Zach LaVine is worth ", round(a, digits=4), " points per game. This is less than the 1.74 difference between playing with and without fans."))
+```
+
+According to [FiveThirtyEight's RAPTOR](https://projects.fivethirtyeight.com/nba-player-ratings/), Luka Doncic has an Overall RAPTOR total rating of $+5.9$ points per $100$ possessions. According to the [ESPN 2020-21 Hollinger Team Statistics](http://www.espn.com/nba/hollinger/teamstats/_/sort/paceFactor), the New York Knicks (the team RJ Barrett plays for) average $98.2$ possessions per game and according to [basketball-reference.com](https://www.basketball-reference.com/leagues/NBA_2021_per_game.html), Luka Doncic averaged $34.3$ minutes per game during the 2020-21 season.
+
+```{r comp2}
+a = 5.9 * (98.2/100) * (34.3/48)
+print(str_c("According to RAPTOR, Luka Doncic is worth ", round(a, digits=4), " points per game. This is less than the 4.26 point swing between playing at home with fans compared to playing away with fans."))
+```
+
