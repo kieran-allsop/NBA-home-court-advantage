@@ -1,7 +1,7 @@
 # NBA-home-court-advantage
 
 This repository contains all of the hand-collected data and code to reproduce the figures, analysis, and calculations in the journal article **"[A Mere Fan Effect on Home Court Advantage
-](https://www.aei.org/research-products/working-paper/all-star-fans-and-home-court-advantage/)"** published on ??? ?th, 2023, and the FiveThirtyEight article **"[After This Weird NBA Season, We Have A Better Idea Of How Much Fans Matter](https://fivethirtyeight.com/features/after-this-weird-nba-season-we-have-a-better-idea-of-how-much-fans-matter/)"**, published July 6th, 2021.
+](https://journals.sagepub.com/doi/10.1177/15270025231200890)"** published on September 12th, 2023, and the FiveThirtyEight article **"[After This Weird NBA Season, We Have A Better Idea Of How Much Fans Matter](https://fivethirtyeight.com/features/after-this-weird-nba-season-we-have-a-better-idea-of-how-much-fans-matter/)"**, published July 6th, 2021.
 
 Data collection from [basketball-reference.com](https://www.basketball-reference.com/) was originally completed in May 2021 and then updated in May 2022 to include the 2021-22 season and all COVID-19 data. It is possible that data access may have changed since the analysis was conducted. The full data set used for the journal article can be found in the data file under either **[nba_final_data.csv](https://github.com/kieran-allsop/NBA-home-court-advantage/blob/main/Replication/data/nba_final_data.csv)** or **[nba_final_data.dta](https://github.com/kieran-allsop/NBA-home-court-advantage/blob/main/Replication/data/nba_final_data.dta)**. All analysis and figure production can be obtained from these datasets.
 
